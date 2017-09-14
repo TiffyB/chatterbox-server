@@ -34,7 +34,7 @@ module.exports = {
       }
 
     }.bind(this);
-    console.log("Stubs this: ", this);
+    // console.log("Stubs this: ", this);
   }
 
 };

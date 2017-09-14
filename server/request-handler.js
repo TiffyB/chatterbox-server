@@ -28,19 +28,27 @@ var requestHandler = function(request, response) {
   headers['Content-Type'] = 'application/json';
   console.log('Serving request type ' + request.method + ' for url ' + request.url);
 
+
+
   // The outgoing status.
   var body = [];
   var statusCode = 200;
+  // console.log("in request handler: ", request);
+
+
+
+
 
   if (request.method === 'POST' && (request.url === '/classes/messages' || request.url === '/classes/room')) {
     response.statusCode = 201;
-    console.log("Request handler request: ", request);
-    request.on('error', (err) => {
-      console.log(err);
-    }).on('data', (chunk) => {
+    
+    request.on('data', (chunk) => {
       body.push(chunk);
-    }).on('end', () => {
-      body = Buffer.concat(body).toString('utf8');
+      
+
+    });
+    request.on('end', () => {
+      body = [].concat(body).toString('utf8');
       _data.results.push(JSON.parse(body));
     });
   } else if (request.url !== '/classes/messages' && request.url !== '/classes/room') {
@@ -50,6 +58,11 @@ var requestHandler = function(request, response) {
   } else {
     response.statusCode = 200;
   }
+
+
+
+
+
 
   response.writeHead(response.statusCode, headers);
 
