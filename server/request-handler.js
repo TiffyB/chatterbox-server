@@ -18,7 +18,7 @@ var defaultCorsHeaders = {
   'access-control-max-age': 10 // Seconds.
 };
 var _data = {
-  results: []
+  results: [{objectId: 1, username: 'Jono', message: 'Do my bidding!'}]
 };
 
 var requestHandler = function(request, response) {
@@ -49,12 +49,13 @@ var requestHandler = function(request, response) {
     });
     request.on('end', () => {
       body = [].concat(body).toString('utf8');
-      _data.results.push(JSON.parse(body));
+      var parsedBody = JSON.parse(body);
+      parsedBody.objectId = _data.results.length + 1;
+      _data.results.push(parsedBody);
+      // _data.results.push(JSON.parse(body));
     });
-  } else if (request.url !== '/classes/messages' && request.url !== '/classes/room') {
-
+  } else if (!request.url.includes('/classes/messages') && !request.url.includes('/classes/room')) {
     response.statusCode = 404;
-
   } else {
     response.statusCode = 200;
   }
