@@ -23,7 +23,7 @@ module.exports = {
     this.method = method;
     this._postData = postdata;
     this.setEncoding = function() { /* noop */ };
-
+    
     this.addListener = this.on = function(type, callback) {
       if (type === 'data') {
         callback(JSON.stringify(this._postData));
@@ -34,6 +34,7 @@ module.exports = {
       }
 
     }.bind(this);
+    console.log("Stubs this: ", this);
   }
 
 };
