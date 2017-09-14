@@ -45,10 +45,24 @@ var requestHandler = function(request, response) {
 
   if (request.method === 'POST') {
     statusCode = 201;
-    // request.postdata;
+
+
+    var body = [];
+    request.on('data', (chunk) => {
+      var stringifiedChunk = chunk.toString('utf8');
+      body.push(stringifiedChunk);
+      console.log("chunk ", chunk.toString('utf8'));
+    }).on('end', () => {
+      // body = Buffer.concat(body).toString();
+      console.log('Body: ', body);
+      var requestObjString = body[0];
+      var requestObj = JSON.parse(requestObjString);
+      console.log(requestObj.username);
+      _data.results.push(requestObj);
+      console.log('results data', _data.results);
+    });
+
     
-    console.log("it's a post with status 200");
-    console.log("Request Value: ", request.data);//Object.keys(request)
   }
 
   // See the note below about CORS headers.
